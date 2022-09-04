@@ -8,7 +8,7 @@ import PersistLogin from './components/Layouts/PersistLogin';
 import Register from './features/auth/Register';
 import Login from './features/auth/Login';
 import LoginRedir from './features/auth/LoginRedir';
-import Admin from '../../admin/src/components/admin/Admin';
+import Admin from './components/admin/Admin';
 // Users CRUD
 import Users from './features/users/Users';
 import ReadUserInfo from './features/users/ReadUserInfo';
