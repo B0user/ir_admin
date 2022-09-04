@@ -235,7 +235,7 @@ const ReadModel = () => {
             <br />
             
             <div className="container-fluid text-white bg-primary text-center py-2">
-                <span>Ссылка: <Link to={`/modelview/${client_id}/${product_id}?color=${color}&size=${sizeA}x${sizeB}`}>Посмотреть модель</Link></span>
+                <span>Ссылка: <Link to={`${BASE_URL}/modelview/${client_id}/${product_id}?color=${color}&size=${sizeA}x${sizeB}`}>Посмотреть модель</Link></span>
                 <br />
                 {/* <QRCode url={`${BASE_URL}/modelview/${client_id}/${product_id}?color=${color}&size=${sizeA}x${sizeB}`} isImage={false} isButton={true}/> */}
             </div>
