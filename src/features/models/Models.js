@@ -19,13 +19,14 @@ const Models = () => {
   if (isLoading) return <span className="spinner-border" />;
   if (isError) return <p>Что-то пошло не так... {error}</p>;
 
-  const deleteModel = async (id) => {
+  const deleteModel = async (id, file_id) => {
     if(!id) {
         console.error('Empty ID');
         return;
     }
     try {
         await axiosPrivate.delete(`/models/exact/${id}`);
+        //await axiosPrivate.delete(`/files/delete/${file_id}`);
         refetch();
     } catch (err) {
         console.error(err);
@@ -86,7 +87,7 @@ const Models = () => {
                   <span className="ms-2">
                     <FontAwesomeIcon
                       icon={faMinus}
-                      onClick={() => deleteModel(model._id)}
+                      onClick={() => deleteModel(model._id, model.file)}
                     />
                   </span>
                   <span className="ms-2">

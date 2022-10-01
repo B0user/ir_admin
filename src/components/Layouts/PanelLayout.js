@@ -9,7 +9,7 @@ const PanelLayout = ({ role }) => {
           <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
             
             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-              {role === 1101 ? (
+              {role === 2004 ? (
                 <>
                   <li className="nav-item">
                     <Link to="/" className="nav-link align-middle px-0">
@@ -17,31 +17,7 @@ const PanelLayout = ({ role }) => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/client" className="nav-link px-0 align-middle">
-                      <i className="fs-4 bi-speedometer2" /> <span className="ms-1 d-none d-sm-inline">Панель управления</span> </Link>
-                  </li>
-                  <li>
-                    <Link to="#submenu3" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
-                      <span className="ms-1 d-none d-sm-inline">Товары</span> </Link>
-                    <ul className="collapse nav flex-column ms-4" id="submenu3" data-bs-parent="#menu">
-                      <li className="w-100">
-                        <Link to="/client/products" className="nav-link px-0"> <span className="d-none d-sm-inline">Посмотреть все</span></Link>
-                      </li>
-                      <li>
-                        <Link to="/client/products/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Добавить новый</span></Link>
-                      </li>
-                    </ul>
-                  </li>
-                </>
-              ) : role === 2004 ? (
-                <>
-                  <li className="nav-item">
-                    <Link to="/" className="nav-link align-middle px-0">
-                      <i className="fs-4 bi-house" /> <span className="ms-1 d-none d-sm-inline">Главная</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/admin" className="nav-link px-0 align-middle">
+                    <Link to="/panel" className="nav-link px-0 align-middle">
                       <i className="fs-4 bi-speedometer2" /> <span className="ms-1 d-none d-sm-inline">Админ-панель</span> </Link>
                   </li>
                   <li>
@@ -49,10 +25,10 @@ const PanelLayout = ({ role }) => {
                       <i className="fs-4 bi-grid" /> <span className="ms-1 d-none d-sm-inline">Пользователи</span> </Link>
                     <ul className="collapse nav flex-column ms-4" id="submenu-users" data-bs-parent="#menu">
                       <li className="w-100">
-                        <Link to="/admin/users" className="nav-link px-0"> <span className="d-none d-sm-inline">Посмотреть все</span></Link>
+                        <Link to="/panel/users" className="nav-link px-0"> <span className="d-none d-sm-inline">Посмотреть все</span></Link>
                       </li>
                       <li>
-                        <Link to="/admin/users/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Добавить новый</span></Link>
+                        <Link to="/panel/users/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Добавить новый</span></Link>
                       </li>
                     </ul>
                   </li>
@@ -61,10 +37,10 @@ const PanelLayout = ({ role }) => {
                       <i className="fs-4 bi-grid" /> <span className="ms-1 d-none d-sm-inline">Модели</span> </Link>
                     <ul className="collapse nav flex-column ms-4" id="submenu-models" data-bs-parent="#menu">
                       <li className="w-100">
-                        <Link to="/admin/models" className="nav-link px-0"> <span className="d-none d-sm-inline">Посмотреть все</span></Link>
+                        <Link to="/panel/models" className="nav-link px-0"> <span className="d-none d-sm-inline">Посмотреть все</span></Link>
                       </li>
                       <li>
-                        <Link to="/admin/models/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Добавить новый</span></Link>
+                        <Link to="/panel/models/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Добавить новый</span></Link>
                       </li>
                     </ul>
                   </li>

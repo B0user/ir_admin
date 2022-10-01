@@ -102,7 +102,7 @@ const AddUser = () => {
 
   return (
     <>
-      {success ? navigate('/admin/users') : (
+      {success ? navigate('/panel/users') : (
         <>
           <p
             ref={errRef}
@@ -213,7 +213,7 @@ const AddUser = () => {
           </form>
           <p>
             <span className="line">
-              <Link to="/admin/users">Отмена</Link>
+              <Link to="/panel/users">Отмена</Link>
             </span>
           </p>
         </>

@@ -118,7 +118,7 @@ const ReadUserInfo = () => {
 
   return (
     <>
-      {success ? navigate('/admin/users') : (
+      {success ? navigate('/panel/users') : (
         <>
           <p
             ref={errRef}
