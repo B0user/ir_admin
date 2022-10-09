@@ -61,7 +61,7 @@ const Users = () => {
             {data.map((user, i) => (
                   <div
                     key={i}
-                    className="info d-flex justify-content-between align-items-center ms-3 mb-2"
+                    className="info d-flex justify-content-between align-items-center ms-3 py-1 border-bottom"
                   >
                     <li>
                       {user.username}

@@ -69,12 +69,17 @@ const Models = () => {
             поиск
           </button>
         </div>
+        <Link to="add">
+          <button className="btn btn-cp bg-cp-nephritis rounded-pill w-100">
+            Добавить новую модель
+          </button>
+        </Link>
         {models?.length ? (
           <ul className="ps-0 ms-1" id="models">
-            {models.map((model, i) => (
+            {models.reverse().map((model, i) => (
               <div
                 key={i}
-                className="info d-flex justify-content-between align-items-center ms-3 mb-2"
+                className="info d-flex justify-content-between align-items-center ms-3 py-1 border-bottom"
               >
                 <li><b>{products?.length ? translateProduct_id(model.product_id) : 'Loading...'}{'--->'}</b>  <b>цвет:</b> {model.color} <b>размер:</b> {model.size}</li>
                 <div className="icons">
@@ -102,11 +107,6 @@ const Models = () => {
         ) : (
           <p>Нет моделей</p>
         )}
-        <Link to="add">
-          <button className="btn btn-cp bg-cp-nephritis rounded-pill w-100">
-            Добавить новую модель
-          </button>
-        </Link>
       </div>
       <br />
     </div>
