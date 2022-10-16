@@ -1,33 +1,20 @@
-import { useState, useEffect } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "@tanstack/react-query";
 
-const Models = () => {
-  const axiosPrivate = useAxiosPrivate();
+const ListModels = ({ models, products, refetch, active }) => {
   const navigate = useNavigate();
-  
-  const { data:products } = useQuery(["products"], () => 
-    axiosPrivate.get('/products/all').then((res) => res.data)
-  );
-  const { data:models, error, isLoading, isError, refetch } = useQuery(["models"], () =>
-    axiosPrivate.get('/models/all').then((res) => res.data)
-  );
-
-  if (isLoading) return <span className="spinner-border" />;
-  if (isError) return <p>Что-то пошло не так... {error}</p>;
-
-  const deleteModel = async (id, file_id) => {
+  const deleteModel = async (id) => {
     if(!id) {
         console.error('Empty ID');
         return;
     }
     try {
-        await axiosPrivate.delete(`/models/exact/${id}`);
-        //await axiosPrivate.delete(`/files/delete/${file_id}`);
-        refetch();
+      if (active) await axiosPrivate.delete(`/models/exact/${id}`);
+      else await axiosPrivate.post(`/models/exact/${id}/restore`);
+      refetch();
     } catch (err) {
         console.error(err);
     }
@@ -51,7 +38,59 @@ const Models = () => {
         console.error(err);
         return null;
     }
+  }
+  
+  return (
+    <>
+    {models?.length ? (
+      <ul className="ps-0 ms-1" id="models">
+        {models.reverse().map((model, i) => (
+          <div
+            key={i}
+            className="info d-flex justify-content-between align-items-center ms-3 py-1 border-bottom"
+          >
+            <li><b>{products?.length ? translateProduct_id(model.product_id) : 'Loading...'}{'--->'}</b>  <b>цвет:</b> {model.color} <b>размер:</b> {model.size}</li>
+            <div className="icons">
+              <button
+                className="btn btn-primary me-2 rounded-pill"
+                onClick={() => readModel(model._id)}
+              >
+                Больше
+              </button>
+              <span className="ms-2">
+                <FontAwesomeIcon
+                  icon={faMinus}
+                  onClick={() => deleteModel(model._id)}
+                />
+              </span>
+              <span className="ms-2">
+                <Link to="add">
+                  <FontAwesomeIcon icon={faPlus} />
+                </Link>
+              </span>
+            </div>
+          </div>
+        ))}
+      </ul>
+    ) : (
+      <p>Нет моделей</p>
+    )}
+    </>
+  )
 }
+
+const Models = ({published}) => {
+  const axiosPrivate = useAxiosPrivate();
+  
+  const { data:products } = useQuery(["products"], () => 
+    axiosPrivate.get('/products/all').then((res) => res.data)
+  );
+  const { data:models, error, isLoading, isError, refetch } = useQuery(["models"], () =>
+    axiosPrivate.get('/models/all').then((res) => res.data)
+  );
+
+  if (isLoading) return <span className="spinner-border" />;
+  if (isError) return <p>Что-то пошло не так... {error}</p>;
 
   return (
     <div className="row">
@@ -74,39 +113,7 @@ const Models = () => {
             Добавить новую модель
           </button>
         </Link>
-        {models?.length ? (
-          <ul className="ps-0 ms-1" id="models">
-            {models.reverse().map((model, i) => (
-              <div
-                key={i}
-                className="info d-flex justify-content-between align-items-center ms-3 py-1 border-bottom"
-              >
-                <li><b>{products?.length ? translateProduct_id(model.product_id) : 'Loading...'}{'--->'}</b>  <b>цвет:</b> {model.color} <b>размер:</b> {model.size}</li>
-                <div className="icons">
-                  <button
-                    className="btn btn-primary me-2 rounded-pill"
-                    onClick={() => readModel(model._id)}
-                  >
-                    Больше
-                  </button>
-                  <span className="ms-2">
-                    <FontAwesomeIcon
-                      icon={faMinus}
-                      onClick={() => deleteModel(model._id, model.file)}
-                    />
-                  </span>
-                  <span className="ms-2">
-                    <Link to="add">
-                      <FontAwesomeIcon icon={faPlus} />
-                    </Link>
-                  </span>
-                </div>
-              </div>
-            ))}
-          </ul>
-        ) : (
-          <p>Нет моделей</p>
-        )}
+        <ListModels models={models.filter((model) => model.active === published)} products={products} refetch={refetch} active={published} />
       </div>
       <br />
     </div>

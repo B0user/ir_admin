@@ -42,6 +42,9 @@ const PanelLayout = ({ role }) => {
                       <li>
                         <Link to="/panel/models/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Добавить новый</span></Link>
                       </li>
+                      <li>
+                        <Link to="/panel/models/archieve" className="nav-link px-0"> <span className="d-none d-sm-inline">Архив</span></Link>
+                      </li>
                     </ul>
                   </li>
                 </>

@@ -67,17 +67,14 @@ const ReadModel = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        
-        const file = result.data.file_id;
-        const link = result.data.path;
+        const path = result.data.path;
         // Add to DB
         const response = await axiosPrivate.put(
           `${UPDATE_URL}/${id}`,
           JSON.stringify({
             color: color,
             size: `${sizeA}x${sizeB}`,
-            file: file,
-            link: link
+            model_path: path
           })
         );
         console.log(response);

@@ -55,16 +55,14 @@ const AddModel = () => {
                     }
                 }
             )
-            const file = result.data.file_id;
-            const link = result.data.path;
+            const path = result.data.path;
             // Add to DB
             const response = await axiosPrivate.post(
                 `${ADDMODEL_URL}/${product_id}`,
                 JSON.stringify({
                     color: color,
                     size: `${sizeA}x${sizeB}`,
-                    file_id: file,
-                    link: link
+                    model_path: path
                 })
             );
             console.log(response);

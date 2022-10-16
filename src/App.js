@@ -42,7 +42,8 @@ function App() {
                   <Route path=":id" element={<ReadUserInfo />}/>
                 </Route>
                 <Route path="models">
-                  <Route index element={<Models />}/>
+                  <Route index element={<Models published={true}/>}/>
+                  <Route path="archieve" element={<Models published={false}/>}/>
                   <Route path="add" element={<AddModel />}/>
                   <Route path=":id" element={<ReadModel />}/>
                 </Route>
