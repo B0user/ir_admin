@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const ListModels = ({ models, products, refetch, active }) => {
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
   const deleteModel = async (id) => {
     if(!id) {
         console.error('Empty ID');
