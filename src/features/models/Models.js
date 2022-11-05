@@ -1,93 +1,107 @@
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "@tanstack/react-query";
 
-const ListModels = ({ models, products, refetch, active }) => {
+const ListModels = ({ models, products, refetch }) => {
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
   const deleteModel = async (id) => {
-    if(!id) {
-        console.error('Empty ID');
-        return;
+    if (!id) {
+      console.error("Empty ID");
+      return;
     }
     try {
-      if (active) await axiosPrivate.delete(`/models/exact/${id}`);
-      else await axiosPrivate.post(`/models/exact/${id}/restore`);
+      await axiosPrivate.delete(`/models/exact/${id}/archivate`);
       refetch();
     } catch (err) {
-        console.error(err);
+      console.error(err);
     }
-  }
+  };
   const readModel = (id) => {
-    if(!id) {
-        console.error('Empty ID');
-        return;
+    if (!id) {
+      console.error("Empty ID");
+      return;
     }
     try {
-        navigate(`${id}`);
+      navigate(`${id}`);
     } catch (err) {
-        console.error(err);
+      console.error(err);
     }
-  } 
+  };
   const translateProduct_id = (_id) => {
     try {
-        const found = products.find(item => item._id === _id);
-        return found.name;
+      const found = products.find((item) => item._id === _id);
+      return found.name;
     } catch (err) {
-        console.error(err);
-        return null;
+      console.error(err);
+      return null;
     }
-  }
-  
+  };
+
   return (
     <>
-    {models?.length ? (
-      <ul className="ps-0 ms-1" id="models">
-        {models.reverse().map((model, i) => (
-          <div
-            key={i}
-            className="info d-flex justify-content-between align-items-center ms-3 py-1 border-bottom"
-          >
-            <li><b>{products?.length ? translateProduct_id(model.product_id) : 'Loading...'}{'--->'}</b>  <b>цвет:</b> {model.color} <b>размер:</b> {model.size}</li>
-            <div className="icons">
-              <button
-                className="btn btn-primary me-2 rounded-pill"
-                onClick={() => readModel(model._id)}
-              >
-                Больше
-              </button>
-              <span className="ms-2">
-                <FontAwesomeIcon
-                  icon={faMinus}
-                  onClick={() => deleteModel(model._id)}
-                />
-              </span>
-              <span className="ms-2">
-                <Link to="add">
-                  <FontAwesomeIcon icon={faPlus} />
-                </Link>
-              </span>
-            </div>
-          </div>
-        ))}
-      </ul>
-    ) : (
-      <p>Нет моделей</p>
-    )}
-    </>
-  )
-}
+      {models?.length ? (
+        <ul className="ps-0 ms-1" id="models">
+          {models.reverse().map((model, i) => (
+            <div
+              key={i}
+              className="info d-flex justify-content-between align-items-center ms-3 py-1 border-bottom"
+            >
+              <li>
+                <b>
+                  {products?.length
+                    ? translateProduct_id(model.product_id)
+                    : "Loading..."}{" "}
+                  {" ===== "}
+                </b>
+                <b> размер:</b> {model.size}
+              </li>
 
-const Models = ({published}) => {
-  const axiosPrivate = useAxiosPrivate();
-  
-  const { data:products } = useQuery(["products"], () => 
-    axiosPrivate.get('/products/all').then((res) => res.data)
+              <div className="icons">
+                <button
+                  className="btn btn-primary me-2 rounded-pill"
+                  onClick={() => readModel(model._id)}
+                >
+                  Больше
+                </button>
+                <span className="ms-2">
+                  <FontAwesomeIcon
+                    icon={faMinus}
+                    onClick={() => deleteModel(model._id)}
+                  />
+                </span>
+                <span className="ms-2">
+                  <Link to="add">
+                    <FontAwesomeIcon icon={faPlus} />
+                  </Link>
+                </span>
+              </div>
+            </div>
+          ))}
+        </ul>
+      ) : (
+        <p>Нет моделей</p>
+      )}
+    </>
   );
-  const { data:models, error, isLoading, isError, refetch } = useQuery(["models"], () =>
-    axiosPrivate.get('/models/all').then((res) => res.data)
+};
+
+const Models = ({ published }) => {
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data: products } = useQuery(["products"], () =>
+    axiosPrivate.get("/products/all").then((res) => res.data)
+  );
+  const {
+    data: models,
+    error,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery(["models"], () =>
+    axiosPrivate.get("/models/all").then((res) => res.data)
   );
 
   if (isLoading) return <span className="spinner-border" />;
@@ -114,7 +128,11 @@ const Models = ({published}) => {
             Добавить новую модель
           </button>
         </Link>
-        <ListModels models={models.filter((model) => model.active === published)} products={products} refetch={refetch} active={published} />
+        <ListModels
+          models={models.filter((model) => model.active === published)}
+          products={products}
+          refetch={refetch}
+        />
       </div>
       <br />
     </div>
