@@ -29,6 +29,7 @@ const AddUser = () => {
 
   const [roleUser, setRoleUser] = useState(true);
   const [roleClient, setRoleClient] = useState(false);
+  const [roleSupport, setRoleSupport] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false)
@@ -67,7 +68,8 @@ const AddUser = () => {
             pwd: pwd, 
             roles: {
                 User: roleUser,
-                Client: roleClient
+                Client: roleClient,
+                Support: roleSupport
             } 
         })
       );
@@ -77,6 +79,7 @@ const AddUser = () => {
       setMatchPwd('');
       setRoleUser(false);
       setRoleClient(false);
+      setRoleSupport(false);
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");
@@ -96,6 +99,9 @@ const AddUser = () => {
             break;
         case 'client':
             setRoleClient(value);
+            break;
+        case 'support':
+            setRoleSupport(value);
             break;
     }
   }
@@ -206,6 +212,15 @@ const AddUser = () => {
                         checked={roleClient}
                     />
                     <label htmlFor="client">Клиент</label>
+                </div>
+                <div>
+                    <input 
+                        type="checkbox" 
+                        id="support" 
+                        onChange={(e) => onRolesChange('support', e.target.checked)}
+                        checked={roleSupport}
+                    />
+                    <label htmlFor="support">Поддержка</label>
                 </div>
             </fieldset>
             <br />

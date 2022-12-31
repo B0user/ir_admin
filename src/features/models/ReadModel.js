@@ -15,8 +15,7 @@ const ReadModel = () => {
   const errRef = useRef();
 
   const [product_id, setProduct_id]   = useState();
-  const [client_id, setClient_id]   = useState();
-  const [color, setColor] = useState("");
+  const [client_id]   = useState();
   const [sizeA, setSizeA] = useState("");
   const [sizeB, setSizeB] = useState("");
   const [model, setModel] = useState("");
@@ -38,7 +37,6 @@ const ReadModel = () => {
     axiosPrivate.get(`/models/exact/${id}`).then((res) => {
       const info = res.data;
       setProduct_id(info.product_id);
-      setColor(info.color);
       setSizeA(info.size.split("x")[0]);
       setSizeB(info.size.split("x")[1]);
       return info;
@@ -72,7 +70,6 @@ const ReadModel = () => {
         const response = await axiosPrivate.put(
           `${UPDATE_URL}/${id}`,
           JSON.stringify({
-            color: color,
             size: `${sizeA}x${sizeB}`,
             model_path: path
           })
@@ -82,7 +79,6 @@ const ReadModel = () => {
         const response = await axiosPrivate.put(
           `${UPDATE_URL}/${id}`,
           JSON.stringify({
-            color: color,
             size: `${sizeA}x${sizeB}`,
           })
         );
@@ -90,7 +86,6 @@ const ReadModel = () => {
       }
       setSuccess(true);
       setProduct_id('');
-      setColor("");
       setSizeA("");
       setSizeB("");
       setModel("");
@@ -107,7 +102,6 @@ const ReadModel = () => {
     try {
       await axiosPrivate.delete(`/models/${id}`);
       setSuccess(true);
-      setColor("");
       setSizeA("");
       setSizeB("");
     } catch (err) {
@@ -165,21 +159,6 @@ const ReadModel = () => {
                 <p>нет товаров</p>
               )}
 
-              <label htmlFor="color" className="form-label">
-                Цвет:
-              </label>
-              <input
-                type="text"
-                id="color"
-                onChange={(e) => {
-                  setChangedInfo(true);
-                  setColor(e.target.value);
-                }}
-                value={color}
-                className="form-control"
-                required
-              />
-
               <label htmlFor="size" className="form-label">
                 Размер: (м)
               </label>
@@ -232,9 +211,8 @@ const ReadModel = () => {
             <br />
             
             <div className="container-fluid text-white bg-primary text-center py-2">
-                <span>Ссылка: <Link to={`${BASE_URL}/modelview/${client_id}/${product_id}?color=${color}&size=${sizeA}x${sizeB}`}>Посмотреть модель</Link></span>
+                <span>Ссылка: <Link to={`${BASE_URL}/modelview/${client_id}/${product_id}?size=${sizeA}x${sizeB}`}>Посмотреть модель</Link></span>
                 <br />
-                {/* <QRCode url={`${BASE_URL}/modelview/${client_id}/${product_id}?color=${color}&size=${sizeA}x${sizeB}`} isImage={false} isButton={true}/> */}
             </div>
             <br />
             <div>

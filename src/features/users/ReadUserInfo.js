@@ -25,6 +25,7 @@ const ReadUserInfo = () => {
 
   const [roleUser, setRoleUser] = useState(false);
   const [roleClient, setRoleClient] = useState(false);
+  const [roleSupport, setRoleSupport] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
   const [changed, setChanged] = useState(false);
@@ -41,8 +42,9 @@ const ReadUserInfo = () => {
   const {data, isLoading, isError, error} = useQuery([`userinfo(${id})`, id], () => axiosPrivate.get(`/users/${id}`).then((res) => {
     const info = res.data;
     setUser(info.username);
-    setRoleUser(info.roles.User ? true : false);
-    setRoleClient(info.roles.Client ? true : false);
+    setRoleUser(!!info.roles.User);
+    setRoleClient(!!info.roles.Client);
+    setRoleSupport(!!info.roles.Support);
     return info;
   }));
 
@@ -61,7 +63,8 @@ const ReadUserInfo = () => {
             user: user,
             roles: {
                 User: roleUser,
-                Client: roleClient
+                Client: roleClient,
+                Support: roleSupport
             } 
         })
       );
@@ -69,6 +72,7 @@ const ReadUserInfo = () => {
       setUser('');
       setRoleUser(false);
       setRoleClient(false);
+      setRoleSupport(false);
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");
@@ -90,6 +94,9 @@ const ReadUserInfo = () => {
         case 'client':
             setRoleClient(value);
             break;
+        case 'support':
+            setRoleSupport(value);
+            break;
     }
   }
   const handleDelete = async (e) => {
@@ -100,6 +107,7 @@ const ReadUserInfo = () => {
       setUser('');
       setRoleUser(false);
       setRoleClient(false);
+      setRoleSupport(false);
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");
@@ -174,6 +182,15 @@ const ReadUserInfo = () => {
                     />
                     <label htmlFor="client">Клиент</label>
                 </div>
+                <div>
+                    <input 
+                        type="checkbox" 
+                        id="support" 
+                        onChange={(e) => onRolesChange('support', e.target.checked)}
+                        checked={roleSupport}
+                    />
+                    <label htmlFor="support">Поддержка</label>
+                </div>
             </fieldset>
             <br />
             
@@ -184,7 +201,7 @@ const ReadUserInfo = () => {
           </form>
           <p>
             <span className="line">
-              <Link to="/admin/users">Отмена</Link>
+              <Link to="/panel/users">Отмена</Link>
             </span>
           </p>
         </>

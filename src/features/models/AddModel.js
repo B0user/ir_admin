@@ -12,9 +12,7 @@ const AddModel = () => {
     const navigate                      = useNavigate();
     const errRef                        = useRef();
     
-
     const [product_id, setProduct_id]   = useState();
-    const [color, setColor]             = useState();
     const [sizeA, setSizeA]             = useState();
     const [sizeB, setSizeB]             = useState();
     const [model, setModel]             = useState();
@@ -60,7 +58,6 @@ const AddModel = () => {
             const response = await axiosPrivate.post(
                 `${ADDMODEL_URL}/${product_id}`,
                 JSON.stringify({
-                    color: color,
                     size: `${sizeA}x${sizeB}`,
                     model_path: path
                 })
@@ -69,7 +66,6 @@ const AddModel = () => {
             setSuccess(true);
 
             setProduct_id('');
-            setColor('');
             setSizeA('');
             setSizeB('');
             setModel('');
@@ -117,16 +113,6 @@ const AddModel = () => {
                                 )
                                 : <p>Нет товаров</p>
                             }
-
-                            <label htmlFor="color" className="form-label">Цвет:</label>
-                            <input
-                            type="text"
-                            id="color"
-                            onChange={(e) => setColor(e.target.value)}
-                            value={color}
-                            className="form-control"
-                            required
-                            /> 
                             
                             <label htmlFor="size" className="form-label">Размер: (см)</label>
                             <div className="sizes d-flex justify-content-between align-items-center" id="size">
